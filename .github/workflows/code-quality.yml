@@ -1,0 +1,44 @@
+name: Code Quality Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  code-quality:
+    name: Pylance & Formatting Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          uv sync --all-groups
+
+      - name: Check code formatting with Black
+        run: |
+          uv run black --check --diff .
+        continue-on-error: false
+
+      - name: Check code style with Ruff
+        run: |
+          uv run ruff check .
+        continue-on-error: false
+
+      - name: Run Pylance type checking with Pyright
+        run: |
+          uv run pyright agent/ mcp_server/ --pythonversion 3.13
+        continue-on-error: false
