@@ -8,15 +8,18 @@ A simple weather expert agent built with FastAPI and OpenAI SDK, using an MCP se
 weather-agent-mcp/
 ├── .github/
 │   └── workflows/
-│       └── code-quality.yml  # CI checks (ruff, black, pyright)
+│       ├── code-quality.yml   # CI checks (ruff, black, pyright)
+│       └── scanoss.yml        # SCANOSS license/security scanning
 ├── agent/
-│   └── main.py               # FastAPI agent with OpenAI SDK
+│   └── main.py                # FastAPI agent with OpenAI SDK
 ├── mcp_server/
-│   └── server.py             # MCP server with weather tool
-├── .env                      # Environment variables (not committed)
+│   └── server.py              # MCP server with weather tool
+├── .env                       # Environment variables
 ├── .gitignore
+├── LICENSE                    # Apache License 2.0
 ├── pyproject.toml             # Project config and dependencies
-└── test.sh                    # Manual test script
+├── test.sh                    # Manual test script
+└── uv.lock                    # Locked dependencies
 ```
 
 ## Setup
@@ -82,7 +85,9 @@ print(response.json())
 
 ## Code Quality
 
-CI runs ruff, black, and pyright on pull requests. Run locally:
+CI runs ruff, black, and pyright on pull requests via the `code-quality.yml` workflow. A separate `scanoss.yml` workflow runs SCANOSS for license compliance and security scanning.
+
+Run quality checks locally:
 
 ```bash
 uv run ruff check .
@@ -96,3 +101,7 @@ uv run pyright agent/ mcp_server/ --pythonversion 3.13
 - "Is it raining in Seattle?"
 - "Tell me about the weather in New York"
 - "What's the temperature in Sydney?"
+
+## License
+
+This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) for details.
